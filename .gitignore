@@ -1,0 +1,5 @@
+node_modules/
+
+cypress/fixtures/auth.json
+cypress/screenshots/
+cypress.env.json

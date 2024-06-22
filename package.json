@@ -1,0 +1,17 @@
+{
+  "name": "reffie",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "cypress open",
+    "cypress": "cypress run --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "cypress": "^13.12.0",
+    "typescript": "^4.9.5"
+  }
+}
