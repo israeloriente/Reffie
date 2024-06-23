@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
 
 import { defineConfig } from "cypress";
+import fs from "fs-extra";
 
 export default defineConfig({
   env: {
@@ -11,13 +12,10 @@ export default defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
       on("task", {
-        // Example:
-        //   async funcao(id) {
-        //     const { data } = await axios.get(`https://api.com/${id}`);
-        //     return data;
-        //   }
+        fileExists(filePath) {
+          return fs.existsSync(filePath);
+        },
       });
     },
   },
