@@ -1,18 +1,21 @@
 /// <reference types="Cypress" />
 
 Cypress.Commands.add("getAuth", () => {
-  cy.task("fileExists", Cypress.env("AUTH_PATH")).then((fileExists) => {
-    if (!fileExists) {
-      cy.visit(`${Cypress.env("BASE_URL")}`);
-      cy.login(Cypress.env("AUTH_USER"), Cypress.env("AUTH_PASS"));
-      cy.url().should("eq", `${Cypress.env("BASE_URL")}landlord/inner/messages`);
-      cy.saveAuth();
-    }
-  });
-  cy.window().then((window) => {
-    cy.readFile(Cypress.env("AUTH_PATH")).then(({ token, refreshToken }) => {
-      window.localStorage.setItem(Cypress.env("STORAGE_AUTH_TOKEN"), token);
-      window.localStorage.setItem(Cypress.env("STORAGE_AUTH_TOKEN_REFRESH"), refreshToken);
+  cy.task("checkFileExists", Cypress.env("AUTH_PATH")).then(() => {
+    cy.window().then((window) => {
+      cy.readFile(Cypress.env("AUTH_PATH")).then(({ token, refreshToken }) => {
+        window.localStorage.setItem(Cypress.env("STORAGE_AUTH_TOKEN"), token);
+        window.localStorage.setItem(Cypress.env("STORAGE_AUTH_TOKEN_REFRESH"), refreshToken);
+      });
+    });
+    cy.visit(`${Cypress.env("BASE_URL")}`);
+    cy.get('#root').should('be.visible');
+    cy.location("pathname").then((pathname) => {
+      if (pathname === "/landlord/login") {
+        cy.login(Cypress.env("AUTH_USER"), Cypress.env("AUTH_PASS"));
+        cy.url().should("eq", `${Cypress.env("BASE_URL")}landlord/inner/messages`);
+        cy.saveAuth();
+      }
     });
   });
 });

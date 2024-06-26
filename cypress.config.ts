@@ -13,8 +13,9 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       on("task", {
-        fileExists(filePath) {
-          return fs.existsSync(filePath);
+        checkFileExists(filePath) {
+          if (!fs.existsSync(filePath)) fs.writeJsonSync(filePath, { token: "", refreshToken: "" });
+          return null;
         },
       });
     },
